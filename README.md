@@ -13,7 +13,7 @@ By [Michal Rolínek](https://scholar.google.de/citations?user=DVdSTFQAAAAJ&hl=en
 
 ## Introduction
 
-This repository contains TensorFlow implementation code for the paper "L4: Practical loss-based stepsize adaptation for deep learning" (arxiv link). This work proposes an explicit rule for stepsize adaptation on top of existing optimizers such as Adam or momentum SGD.
+This repository contains TensorFlow implementation code for the paper ["L4: Practical loss-based stepsize adaptation for deep learning"](https://arxiv.org/abs/1802.05074). This work proposes an explicit rule for stepsize adaptation on top of existing optimizers such as Adam or momentum SGD.
 
 *Disclaimer*: This code is a PROTOTYPE and most likely contains bugs. It should work with most Tensorflow models but most likely it doesn't comply with TensorFlow production code standards. Use at your own risk.
 
@@ -36,7 +36,7 @@ or
 import L4
 
 ...
-opt = L4.L4Mom()  # default value fraciton=0.15 is used
+opt = L4.L4Mom()  # default value fraction=0.15 is used
 grads_and_vars = opt.compute_gradients(loss)
 ...
 # Gradient manipulation
