@@ -17,12 +17,8 @@
 import tensorflow as tf
 
 
-def flatten_list_of_tensors(list_of_tensors):
-    return tf.concat([tf.reshape(tensor, [-1]) for tensor in list_of_tensors], axis=0)
-
-
-def flatten_and_inner_product(list_of_tensors1, list_of_tensors2):
-    return tf.tensordot(flatten_list_of_tensors(list_of_tensors1), flatten_list_of_tensors(list_of_tensors2), 1)
+def n_inner_product(list_of_tensors1, list_of_tensors2):
+    return tf.add_n([tf.reduce_sum(t1*t2) for t1, t2 in zip(list_of_tensors1, list_of_tensors2)])
 
 
 def time_factor(time_step):
@@ -130,7 +126,7 @@ class L4General(tf.train.GradientDescentOptimizer):
             derivatives = self.deriv_estimate(grads)
 
             min_loss_to_use = self.minloss_factor * self.min_loss
-            l_rate = self.fraction*(loss - min_loss_to_use) / (flatten_and_inner_product(directions, derivatives)+self.epsilon)
+            l_rate = self.fraction*(loss - min_loss_to_use) / (n_inner_product(directions, derivatives)+self.epsilon)
             new_grads = [direction*l_rate for direction in directions]
             tf.summary.scalar('effective_learning_rate', l_rate)
             tf.summary.scalar('min_loss_estimate', self.min_loss)
