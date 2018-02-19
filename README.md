@@ -49,4 +49,3 @@ opt.apply_gradients(grads_and_vars, loss) # (!) Note that loss is passed here (!
 ## Notes
 
 *Contribute*: If you spot a bug or some incompatibility, contribute via a pull request! Thank you!
-X
