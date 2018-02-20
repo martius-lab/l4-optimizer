@@ -6,6 +6,7 @@ By [Michal Rolínek](https://scholar.google.de/citations?user=DVdSTFQAAAAJ&hl=en
 
 ## Table of Contents
 0. [Introduction](#introduction)
+0. [Installation](#installation)
 0. [Usage](#usage)
 0. [Notes](#notes)
 
@@ -17,10 +18,24 @@ This repository contains TensorFlow implementation code for the paper ["L4: Prac
 
 *Disclaimer*: This code is a PROTOTYPE and most likely contains bugs. It should work with most Tensorflow models but most likely it doesn't comply with TensorFlow production code standards. Use at your own risk.
 
+## Installation
+
+Either use one of the following python pip commands,
+
+```
+python -m pip install git+https://github.com/martius-lab/l4-optimizer
+```
+
+
+```
+python3 -m pip install git+https://github.com/martius-lab/l4-optimizer
+```
+
+or simply drop the L4/L4.py file to your project directory
 
 ## Usage
 
-Simply drop the L4.py file to your project and use as follows:
+(Almost) as you would expect from a TensorFlow optimizer. Empirically, good values for the 'fraction' parameter are 0.1 < fraction < 0.3, where 0.15 is set default and should work well enough in most cases. Decreasing 'fraction' is typically a good idea in case of a small batch size or more generally for very little signal in the gradients. Too high values of 'fraction' behave similarly to too high learning rates (i.e. divergence or very early plateauing).
 ```python
 import L4
 
