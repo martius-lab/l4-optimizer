@@ -7,6 +7,6 @@ setup(name='L4',
       author='Michal Rolinek, MPI-IS Tuebingen, Autonomous Learning',
       author_email='michalrolinek@gmail.com',
       license='MIT',
-      scripts=['L4'],
+      scripts=['L4.py'],
       install_requires=[],
       zip_safe=False)
