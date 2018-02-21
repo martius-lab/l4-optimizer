@@ -115,6 +115,9 @@ class L4General(tf.train.GradientDescentOptimizer):
     def apply_gradients(self, grads_and_vars, loss, global_step=None, name=None):
         if not global_step:
             global_step = tf.train.get_or_create_global_step()
+        # Filter variables without a gradient.
+        grads_and_vars = [(grad, var) for grad, var in grads_and_vars if grad is not None]
+
         grads, vars = zip(*grads_and_vars)
 
         ml_newval = tf.cond(tf.equal(global_step, 0), lambda: self.init_factor*loss,
