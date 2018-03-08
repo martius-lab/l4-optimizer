@@ -6,6 +6,7 @@ By [Michal Rolínek](https://scholar.google.de/citations?user=DVdSTFQAAAAJ&hl=en
 
 ## Table of Contents
 0. [Introduction](#introduction)
+0. [Requirements](#requirements)
 0. [Installation](#installation)
 0. [Usage](#usage)
 0. [Notes](#notes)
@@ -17,6 +18,12 @@ By [Michal Rolínek](https://scholar.google.de/citations?user=DVdSTFQAAAAJ&hl=en
 This repository contains TensorFlow implementation code for the paper ["L4: Practical loss-based stepsize adaptation for deep learning"](https://arxiv.org/abs/1802.05074). This work proposes an explicit rule for stepsize adaptation on top of existing optimizers such as Adam or momentum SGD.
 
 *Disclaimer*: This code is a PROTOTYPE and most likely contains bugs. It should work with most Tensorflow models but most likely it doesn't comply with TensorFlow production code standards. Use at your own risk.
+
+## Requirements
+
+TensorFlow >= 1.4.
+
+For a PyTorch implementation of L4, see [l4-pytorch](https://github.com/iovdin/l4-pytorch) (also linked here as a submodule).
 
 ## Installation
 
