@@ -61,7 +61,7 @@ class MomentumTransform(object):
     def __init__(self, time_momentum=10.0):
         self.time_momentum = time_momentum
         self.EMAgrad = tf.train.ExponentialMovingAverage(decay=1.0-1.0/self.time_momentum)
-    
+
     def __call__(self, grads):
         shadow_op_gr = self.EMAgrad.apply(grads)
         with tf.control_dependencies([shadow_op_gr]):
@@ -111,8 +111,12 @@ class L4General(tf.train.GradientDescentOptimizer):
 
         self.grad_direction = string_to_transform[direction_estimator](**direction_params)
         self.deriv_estimate = string_to_transform[gradient_estimator](**gradient_params)
- 
-    def apply_gradients(self, grads_and_vars, loss, global_step=None, name=None):
+
+    def compute_gradients(self, loss, *args, **kwargs):
+        self.loss = loss
+        return super(L4General, self).compute_gradients(loss, *args, **kwargs)
+
+    def apply_gradients(self, grads_and_vars, global_step=None, name=None):
         if not global_step:
             global_step = tf.train.get_or_create_global_step()
         # Filter variables without a gradient.
@@ -120,8 +124,8 @@ class L4General(tf.train.GradientDescentOptimizer):
 
         grads, vars = zip(*grads_and_vars)
 
-        ml_newval = tf.cond(tf.equal(global_step, 0), lambda: self.init_factor*loss,
-                                                      lambda: tf.minimum(self.min_loss, loss))
+        ml_newval = tf.cond(tf.equal(global_step, 0), lambda: self.init_factor*self.loss,
+                                                      lambda: tf.minimum(self.min_loss, self.loss))
         ml_update = self.min_loss.assign(ml_newval)
 
         with tf.control_dependencies([ml_update]):
@@ -129,7 +133,7 @@ class L4General(tf.train.GradientDescentOptimizer):
             derivatives = self.deriv_estimate(grads)
 
             min_loss_to_use = self.minloss_factor * self.min_loss
-            l_rate = self.fraction*(loss - min_loss_to_use) / (n_inner_product(directions, derivatives)+self.epsilon)
+            l_rate = self.fraction*(self.loss - min_loss_to_use) / (n_inner_product(directions, derivatives)+self.epsilon)
             new_grads = [direction*l_rate for direction in directions]
             tf.summary.scalar('effective_learning_rate', l_rate)
             tf.summary.scalar('min_loss_estimate', self.min_loss)
@@ -143,7 +147,7 @@ class L4General(tf.train.GradientDescentOptimizer):
             var_list = tf.trainable_variables()
 
         grads_and_vars = self.compute_gradients(loss, var_list)
-        return self.apply_gradients(grads_and_vars, loss, global_step, name)
+        return self.apply_gradients(grads_and_vars, global_step, name)
 
 
 class L4Adam(L4General):
