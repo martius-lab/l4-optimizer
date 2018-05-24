@@ -42,7 +42,7 @@ or simply drop the L4/L4.py file to your project directory
 
 ## Usage
 
-(Almost) as you would expect from a TensorFlow optimizer. Empirically, good values for the 'fraction' parameter are 0.1 < fraction < 0.3, where 0.15 is set default and should work well enough in most cases. Decreasing 'fraction' is typically a good idea in case of a small batch size or more generally for very little signal in the gradients. Too high values of 'fraction' behave similarly to too high learning rates (i.e. divergence or very early plateauing).
+Exaclty as you would expect from a TensorFlow optimizer. Empirically, good values for the 'fraction' parameter are 0.1 < fraction < 0.3, where 0.15 is set default and should work well enough in most cases. Decreasing 'fraction' is typically a good idea in case of a small batch size or more generally for very little signal in the gradients. Too high values of 'fraction' behave similarly to too high learning rates (i.e. divergence or very early plateauing).
 ```python
 import L4
 
@@ -64,7 +64,7 @@ grads_and_vars = opt.compute_gradients(loss)
 # Gradient manipulation
 ...
 
-opt.apply_gradients(grads_and_vars, loss) # (!) Note that loss is passed here (!)
+opt.apply_gradients(grads_and_vars) # (!) Passing the loss is no longer needed (!)
 ...
 ```
 
